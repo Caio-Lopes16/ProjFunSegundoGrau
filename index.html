@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Funções de Segundo Grau</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #151515;
+            color: #B7B7B7;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #0C0C0C;
+            color: #B7B7B7;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .menu {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #B7B7B7;
+            font-weight: bold;
+            font-size: 18px;
+            transition: color 0.3s, border-bottom 0.3s;
+        }
+
+        .menu a:hover {
+            color: #1e88e5;
+            border-bottom: 2px solid #1e88e5;
+        }
+
+        footer {
+            background-color: #0C0C0C;
+            color: #B7B7B7;
+            padding: 15px 20px;
+            text-align: left;
+        }
+
+        .container {
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 750px;
+            text-align: center;
+            margin: 20px auto;
+        }
+
+        div {
+            margin: 15px 0;
+        }
+
+        label {
+            font-weight: bold;
+            color: #ccc;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        input[type="number"] {
+            width: 50%;
+            padding: 12px;
+            border: 2px solid #444;
+            border-radius: 6px;
+            font-size: 16px;
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            outline: none;
+        }
+
+        input[type="number"]:focus {
+            border-color: #1e88e5;
+            box-shadow: 0 0 8px rgba(30, 136, 229, 0.8);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #1e88e5, #1565c0);
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #1565c0, #1e88e5);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        canvas {
+            margin-top: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Função Segundo Grau</h1>
+        <div class="container mx-auto px-10 py-4 flex justify-between items-center">
+            <nav class="menu">
+                <a href="index.html">Calculadora</a>
+                <a href="aprender.html">Aprender</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Calculadora de Funções de Segundo Grau</h1>
+
+        <div>
+            <label for="a">Valor de A:</label>
+            <input type="number" id="a" placeholder="Digite o coeficiente A">
+        </div>
+
+        <div>
+            <label for="b">Valor de B:</label>
+            <input type="number" id="b" placeholder="Digite o coeficiente B">
+        </div>
+
+        <div>
+            <label for="c">Valor de C:</label>
+            <input type="number" id="c" placeholder="Digite o coeficiente C">
+        </div>
+
+        <button class="btn" onclick="calcular()">CALCULAR</button>
+
+        <div id="result"></div>
+
+        <canvas id="grafico" width="700" height="700"></canvas>
+    </div>
+
+    <footer>
+        Desenvolvido por Caio Lopes, Kaynan Lima, Pedro, Vinícius Carmello e Vinícius Nellis | 2024 | ADS - FATEC
+        AMERICANA
+    </footer>
+
+    <script>
+        let chart;
+
+        function calcular() {
+            const a = parseFloat(document.getElementById('a').value);
+            const b = parseFloat(document.getElementById('b').value);
+            const c = parseFloat(document.getElementById('c').value);
+
+            if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                alert('Por favor, insira valores válidos para A, B e C.');
+                return;
+            }
+            if (a === 0) {
+                alert('Digite um valor DIFERENTE de 0 para o coeficiente A.');
+                return;
+            }
+
+            const delta = b * b - 4 * a * c;
+            let resultText = '';
+
+            if (delta < 0) {
+                resultText = 'A equação NÃO possui raízes reais.';
+            } else if (delta === 0) {
+                const x1 = -b / (2 * a);
+                resultText = `A equação possui UMA raiz real: X = ${x1.toFixed(2)}`;
+            } else {
+                const x1 = (-b + Math.sqrt(delta)) / (2 * a);
+                const x2 = (-b - Math.sqrt(delta)) / (2 * a);
+                resultText = `A equação possui DUAS raízes reais: X1 = ${x1.toFixed(2)}, X2 = ${x2.toFixed(2)}`;
+            }
+
+            const xv = -b / (2 * a);
+            const yv = a * xv * xv + b * xv + c;
+            resultText += `<br>Vértice: (Xv = ${xv.toFixed(2)}, Yv = ${yv.toFixed(2)})`;
+            resultText += `<br>Parábola ${a > 0 ? 'aberta para cima' : 'aberta para baixo'}.`;
+
+            document.getElementById('result').innerHTML = resultText;
+
+            const labels = [];
+            const data = [];
+
+            // Gerar pontos para o gráfico
+            for (let x = -20; x <= 20; x += 0.5) {
+                labels.push(x);
+                data.push(a * x * x + b * x + c);
+            }
+
+            // Definir os limites do gráfico dinamicamente
+            const yMin = Math.min(...data);
+            const yMax = Math.max(...data);
+            const yRange = yMax - yMin;
+
+            // Ajustar o intervalo no eixo Y de forma inteligente
+            const yStepSize = Math.max(1, Math.ceil(yRange / 6)); // Ajusta o intervalo para um valor mais moderado
+            const yAdjustedMin = Math.floor(yMin / yStepSize) * yStepSize;
+            const yAdjustedMax = Math.ceil(yMax / yStepSize) * yStepSize;
+
+            // Definir o eixo X de forma fixa, para que sempre apareça
+            const xMin = -25;
+            const xMax = 25;
+
+            const ctx = document.getElementById('grafico').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Função Quadrática',
+                            data: data,
+                            borderColor: '#1e88e5',
+                            borderWidth: 2,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            ticks: {
+                                callback: function (value) {
+                                    return Math.round(value); // Remover casas decimais
+                                },
+                                min: xMin, // Definir limites fixos para o eixo X
+                                max: xMax, // Limite fixo para o eixo X
+                                stepSize: 5 // Definir o intervalo dos rótulos
+                            },
+                            grid: {
+                                drawTicks: false,
+                                drawOnChartArea: true,
+                                color: (context) => (context.tick.value === 0 ? 'red' : 'rgba(200,200,200,0.1)') // Eixo X vermelho
+                            }
+                        },
+                        y: {
+                            beginAtZero: false,
+                            min: yAdjustedMin,
+                            max: yAdjustedMax,
+                            ticks: {
+                                stepSize: yStepSize, // Ajuste o intervalo de acordo com o gráfico
+                                callback: function (value) {
+                                    return Math.round(value); // Remover casas decimais
+                                }
+                            },
+                            grid: {
+                                drawTicks: false,
+                                drawOnChartArea: true,
+                                color: (context) => (context.tick.value === 0 ? 'green' : 'rgba(200,200,200,0.1)') // Eixo Y verde
+                            }
+                        }
+                    },
+                    plugins: {
+                        annotation: {
+                            annotations: {
+                                eixoX: {
+                                    type: 'line',
+                                    xMin: xMin,
+                                    xMax: xMax,
+                                    borderColor: 'red',
+                                    borderWidth: 2,
+                                    label: {
+                                        content: 'Eixo X',
+                                        enabled: false
+                                    }
+                                },
+                                eixoY: {
+                                    type: 'line',
+                                    yMin: yAdjustedMin,
+                                    yMax: yAdjustedMax,
+                                    borderColor: 'green',
+                                    borderWidth: 2,
+                                    label: {
+                                        content: 'Eixo Y',
+                                        enabled: false
+                                    }
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (tooltipItem) {
+                                    const value = tooltipItem.raw;
+                                    return `f(x): ${Math.round(value)}`; // Remover casas decimais no tooltip
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

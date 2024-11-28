@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprender Funções de Segundo Grau</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reutilizando os estilos gerais */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #151515;
+            color: #B7B7B7;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #0C0C0C;
+            color: #B7B7B7;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .menu {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #B7B7B7;
+            font-weight: bold;
+            font-size: 18px; 
+            transition: color 0.3s, border-bottom 0.3s;
+        }
+
+        .menu a:hover {
+            color: #1e88e5;
+            border-bottom: 2px solid #1e88e5;
+        }
+
+        footer {
+            background-color: #0C0C0C;
+            color: #B7B7B7;
+            padding: 15px 20px;
+            text-align: left;
+        }
+
+        .container {
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 750px;
+            text-align: left;
+            margin: 20px auto;
+        }
+
+        h2, h3 {
+            color: #1e88e5;
+        }
+
+        p {
+            line-height: 1.8;
+        }
+
+        ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <h1>Função Segundo Grau</h1>
+        <div class="container mx-auto px-10 py-4 flex justify-between items-center">
+            <nav class="menu">
+                <a href="index.html">Calculadora</a>
+                <a href="aprender.html">Aprender</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Conteúdo principal -->
+    <div class="container">
+        <h2>O que é uma Função de Segundo Grau?</h2>
+        <p>
+            Uma função de segundo grau, também chamada de função quadrática, é representada pela fórmula:
+        </p>
+        <h3>f(x) = ax² + bx + c</h3>
+        <p>Onde:</p>
+        <ul>
+            <li><strong>a</strong> é o coeficiente quadrático (nunca pode ser 0);</li>
+            <li><strong>b</strong> é o coeficiente linear;</li>
+            <li><strong>c</strong> é o termo constante.</li>
+        </ul>
+
+        <h2>Características da Função de Segundo Grau</h2>
+        <p>Algumas das principais características incluem:</p>
+        <ul>
+            <li>
+                O gráfico da função é uma parábola, que pode estar voltada para cima (se <strong>a &gt; 0</strong>) ou para baixo (se <strong>a &lt; 0</strong>).
+            </li>
+            <li>
+                O vértice da parábola é o ponto onde ela muda de direção, calculado por:
+                <strong>xv = -b / (2a)</strong> e <strong>yv = -Δ / (4a)</strong>
+            </li>
+            <li>
+                As raízes da função (se existirem) são os valores de <strong>x</strong> para os quais <strong>f(x) = 0</strong>.
+            </li>
+        </ul>
+
+        <h2>Como Resolver uma Função de Segundo Grau?</h2>
+        <p>Para encontrar as raízes de uma função, utilizamos a fórmula de Bhaskara:</p>
+        <h3>x = (-b ± √Δ) / 2a</h3>
+        <p>Onde <strong>Δ</strong> (delta) é calculado como:</p>
+        <h3>Δ = b² - 4ac</h3>
+        <p>
+            Dependendo do valor de <strong>Δ</strong>, temos:
+        </p>
+        <ul>
+            <li>Se <strong>Δ &gt; 0</strong>: duas raízes reais distintas;</li>
+            <li>Se <strong>Δ = 0</strong>: uma raiz real (as duas raízes são iguais);</li>
+            <li>Se <strong>Δ &lt; 0</strong>: nenhuma raiz real.</li>
+        </ul>
+
+        <h2>Exemplo Prático</h2>
+        <p>Considere a função:</p>
+        <h3>f(x) = 2x² - 4x - 6</h3>
+        <p>Passo a passo:</p>
+        <ul>
+            <li>Coeficientes: a = 2, b = -4, c = -6;</li>
+            <li>Calculando Δ: Δ = (-4)² - 4(2)(-6) = 16 + 48 = 64;</li>
+            <li>Calculando as raízes: x1 = (-(-4) + √64) / (2*2) = 3, x2 = (-(-4) - √64) / (2*2) = -1.</li>
+        </ul>
+        <p>O gráfico dessa função será uma parábola voltada para cima, com vértice em (xv, yv).</p>
+    </div>
+
+    <!-- Rodapé -->
+    <footer style="text-align: center; margin-top: 50px;">
+        Desenvolvido por Caio Lopes, Kaynan Lima, Pedro, Vinícius Carmello e Vinícius Nellis | 2024 | ADS - FATEC AMERICANA
+    </footer>
+</body>
+</html>
